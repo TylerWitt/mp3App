@@ -12,6 +12,8 @@ import android.widget.Button;
 import java.io.IOException;
 
 public class PlayMusicActivity extends AppCompatActivity {
+    private static final int SONG_PLAYING = 2500;
+
     private static MediaPlayer gMediaPlayer;
     private static int gintCounter;
     private static Button gbtnPlay;
@@ -25,7 +27,7 @@ public class PlayMusicActivity extends AppCompatActivity {
 
         gMediaPlayer = new MediaPlayer();
         Intent ittPassedMusic = getIntent();
-        Uri uriSong = ittPassedMusic.getParcelableExtra(MainActivity.MUSIC_URI);
+        Uri uriSong = ittPassedMusic.getParcelableExtra(MainActivity.cstrMusicUri);
         gbtnPlay = (Button) findViewById(R.id.btnPlay);
         gbtnPause = (Button) findViewById(R.id.btnPause);
         gintCounter = 0;
@@ -70,9 +72,22 @@ public class PlayMusicActivity extends AppCompatActivity {
     }
 
     public void ockPrev(View pbtnView){
+        if (songInProgress()){
+            restartSong();
+        }
         //TODO: Figure out how to get previous song. Store URIs? Depends on how next song is found.
     }
     //endregion
+
+    private boolean songInProgress(){
+        setCounter();
+        return gintCounter > SONG_PLAYING;
+    }
+
+    private void restartSong(){
+        gintCounter = 0;
+        playMusic();
+    }
 
     private void playMusic(){
         gMediaPlayer.seekTo(gintCounter);
@@ -83,8 +98,12 @@ public class PlayMusicActivity extends AppCompatActivity {
 
     private void pauseMusic(){
         gMediaPlayer.pause();
-        gintCounter = gMediaPlayer.getCurrentPosition();
+        setCounter();
         gbtnPlay.setVisibility(View.VISIBLE);
         gbtnPause.setVisibility(View.GONE);
+    }
+
+    private void setCounter(){
+        gintCounter = gMediaPlayer.getCurrentPosition();
     }
 }

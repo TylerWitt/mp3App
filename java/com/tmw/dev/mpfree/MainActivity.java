@@ -8,9 +8,9 @@ import android.os.Bundle;
 import android.view.View;
 
 public class MainActivity extends AppCompatActivity {
-    private static final int READ_REQUEST_CODE = 42;
-    private static final String SONG_TYPES = "audio/*";
-    public static final String MUSIC_URI = "com.tmw.dev.mpfree.MUSICURI";
+    private static final int cintReadRequestCode = 42;
+    private static final String cstrAudioMime = "audio/*";
+    public static final String cstrMusicUri = "com.tmw.dev.mpfree.MUSICURI";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -22,21 +22,21 @@ public class MainActivity extends AppCompatActivity {
         Intent ittFindMusic = new Intent(Intent.ACTION_OPEN_DOCUMENT);
 
         ittFindMusic.addCategory(Intent.CATEGORY_OPENABLE);
-        ittFindMusic.setType(SONG_TYPES);
+        ittFindMusic.setType(cstrAudioMime);
 
-        startActivityForResult(ittFindMusic, READ_REQUEST_CODE);
+        startActivityForResult(ittFindMusic, cintReadRequestCode);
     }
 
     @Override
     public void onActivityResult(int pintRequestCode,
                                  int pintResultCode,
                                  Intent pittResultData) {
-        if (pintRequestCode == READ_REQUEST_CODE && pintResultCode == Activity.RESULT_OK) {
+        if (pintRequestCode == cintReadRequestCode && pintResultCode == Activity.RESULT_OK) {
             Uri uriSong;
             if (pittResultData != null) {
                 uriSong = pittResultData.getData();
                 Intent ittPlayMusic = new Intent(this, PlayMusicActivity.class);
-                ittPlayMusic.putExtra(MUSIC_URI, uriSong);
+                ittPlayMusic.putExtra(cstrMusicUri, uriSong);
                 startActivity(ittPlayMusic);
             }
         }
