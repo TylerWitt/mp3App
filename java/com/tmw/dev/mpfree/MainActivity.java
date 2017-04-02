@@ -18,7 +18,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
     }
 
-    public void switchToMusic(View view){
+    public void ockSwitchToMusic(View pbtnView){
         Intent ittFindMusic = new Intent(Intent.ACTION_OPEN_DOCUMENT);
 
         ittFindMusic.addCategory(Intent.CATEGORY_OPENABLE);
@@ -28,12 +28,13 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @Override
-    public void onActivityResult(int requestCode, int resultCode,
-                                 Intent resultData) {
-        if (requestCode == READ_REQUEST_CODE && resultCode == Activity.RESULT_OK) {
+    public void onActivityResult(int pintRequestCode,
+                                 int pintResultCode,
+                                 Intent pittResultData) {
+        if (pintRequestCode == READ_REQUEST_CODE && pintResultCode == Activity.RESULT_OK) {
             Uri uriSong;
-            if (resultData != null) {
-                uriSong = resultData.getData();
+            if (pittResultData != null) {
+                uriSong = pittResultData.getData();
                 Intent ittPlayMusic = new Intent(this, PlayMusicActivity.class);
                 ittPlayMusic.putExtra(MUSIC_URI, uriSong);
                 startActivity(ittPlayMusic);
